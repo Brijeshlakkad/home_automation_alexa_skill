@@ -1,0 +1,201 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "home automation",
+            "intents": [
+                {
+                    "name": "AMAZON.FallbackIntent",
+                    "samples": [
+                        "turn on and off fan in room.",
+                        "turn on and off ded in room one.",
+                        "turn on and off light in room one."
+                    ]
+                },
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": [
+                        "i don't want this skill anymore",
+                        "cancel this skill",
+                        "exit from this skill"
+                    ]
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": [
+                        "help me",
+                        "help",
+                        "help me with Home Automation skill",
+                        "help with this skill"
+                    ]
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": [
+                        "stop",
+                        "stop this skill"
+                    ]
+                },
+                {
+                    "name": "AMAZON.NavigateHomeIntent",
+                    "samples": []
+                },
+                {
+                    "name": "HelloIntent",
+                    "slots": [],
+                    "samples": [
+                        "tell home automation to say hello",
+                        "tell home automation hello",
+                        "howdy",
+                        "how are you",
+                        "hello"
+                    ]
+                },
+                {
+                    "name": "TurnOnIntent",
+                    "slots": [
+                        {
+                            "name": "deviceName",
+                            "type": "deviceType"
+                        },
+                        {
+                            "name": "roomName",
+                            "type": "roomType"
+                        }
+                    ],
+                    "samples": [
+                        "turn on {roomName} s {deviceName} and {deviceName}",
+                        "turn on {deviceName} and {deviceName} in {roomName}",
+                        "turn on  {roomName} s {deviceName}",
+                        "turn on {deviceName} in my {roomName}",
+                        "turn on {deviceName} in {roomName}"
+                    ]
+                },
+                {
+                    "name": "TurnOffIntent",
+                    "slots": [
+                        {
+                            "name": "deviceName",
+                            "type": "deviceType"
+                        },
+                        {
+                            "name": "roomName",
+                            "type": "roomType"
+                        }
+                    ],
+                    "samples": [
+                        "turn off {roomName} s {deviceName} and {deviceName}",
+                        "turn off {deviceName} and {deviceName} in {roomName}",
+                        "turn off  {roomName} s {deviceName}",
+                        "turn off {deviceName} in {roomName} ",
+                        "turn off {deviceName} in my {roomName} "
+                    ]
+                },
+                {
+                    "name": "AMAZON.StartOverIntent",
+                    "samples": []
+                }
+            ],
+            "types": [
+                {
+                    "name": "roomType",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "third room",
+                                "synonyms": [
+                                    "3 room",
+                                    "room 3",
+                                    "room third",
+                                    "3rd room",
+                                    "room 3rd"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "second room",
+                                "synonyms": [
+                                    "room 2nd",
+                                    "room 2",
+                                    "room second",
+                                    "2 room",
+                                    "2nd room"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "first room",
+                                "synonyms": [
+                                    "room 1st",
+                                    "room first",
+                                    "room one",
+                                    "room 1",
+                                    "1 room",
+                                    "1st room"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "deviceType",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "set top",
+                                "synonyms": [
+                                    "set top box"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "camera"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "tv",
+                                "synonyms": [
+                                    "telivision"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "ac",
+                                "synonyms": [
+                                    "air conditioner"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "light"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "projector"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "fan"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "dvd",
+                                "synonyms": [
+                                    "DVD"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
