@@ -60,13 +60,13 @@ function getRoomID($gotResult)
 }
 
 function performAction($gotResult){
-  if($gotResult->deviceName=="all" || $gotResult->deviceName=="all devices" || $gotResult->deviceName=="all the device"){
+  if(!(strcmp($gotResult->deviceName,"all")) || !(strcmp($gotResult->deviceName,"all devices")) || !(strcmp($gotResult->deviceName,"all the device"))){
     $sql="UPDATE room_device SET status='$gotResult->status' WHERE uid='$gotResult->userID' and room_id='$gotResult->roomID'";
   }else{
     $sql="UPDATE room_device SET status='$gotResult->status' WHERE uid='$gotResult->userID' and room_id='$gotResult->roomID' and device_name='$gotResult->deviceName'";
   }
   $check=mysqli_query($gotResult->con,$sql);
-  if($check)
+  if($check && mysqli_affected_rows($check))
   {
     return $gotResult;
   }
