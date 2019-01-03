@@ -3,7 +3,7 @@ var https = require('https');
 const skillName="Home Automation";
 function changeStatus(query) {
   return new Promise(((resolve, reject) => {
-    https.get('https://4631e568.ngrok.io?'+query, (response) => {
+    https.get('https://homeautomations.tk/brijesh/server.php?'+query, (response) => {
     response.setEncoding('utf8');
       let returnData = '';
 

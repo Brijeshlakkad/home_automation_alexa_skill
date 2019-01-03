@@ -48,7 +48,7 @@ function getRoomID(userID,roomName,gotResult,callback)
     });
   }catch(err){
     gotResult.error=1;
-    gotResult.errorMessage="You do not have room named 1"+roomName;
+    gotResult.errorMessage="You do not have room named "+roomName;
     callback('-99',gotResult);
   }
 }
@@ -60,7 +60,7 @@ function performAction(userID,deviceName,roomID,status,gotResult,callback){
   }
   con.query(sql, [status,userID,roomID,deviceName],function (err, result) {
     try{
-      if (err || result.affectedRows!=1){
+      if (err || result.affectedRows==0){
           gotResult.error=1;
           gotResult.errorMessage="You do not have device named "+deviceName;
           callback(gotResult);
