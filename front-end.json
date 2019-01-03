@@ -5,11 +5,7 @@
             "intents": [
                 {
                     "name": "AMAZON.FallbackIntent",
-                    "samples": [
-                        "turn on and off fan in room.",
-                        "turn on and off ded in room one.",
-                        "turn on and off light in room one."
-                    ]
+                    "samples": []
                 },
                 {
                     "name": "AMAZON.CancelIntent",
@@ -32,23 +28,55 @@
                     "name": "AMAZON.StopIntent",
                     "samples": [
                         "stop",
-                        "stop this skill"
+                        "stop this skill",
+                        "I am done",
+                        "I would like to stop doing this",
+                        "I am out of here",
+                        "I am leaving",
+                        "Hey bot go away",
+                        "Have a nice day",
+                        "Go off",
+                        "Good. bye.",
+                        "Goodbye",
+                        "Going now",
+                        "Go away",
+                        "Get lost",
+                        "Finished now good bye",
+                        "End trial",
+                        "Ending this session",
+                        "Catch you later",
+                        "Bye now",
+                        "Bye bye",
+                        "Time to go",
+                        "That's everything",
+                        "That is all",
+                        "Okay bye now",
+                        "Okay bye",
+                        "Okay bye Bot",
+                        "Okay bye Jon",
+                        "See you",
+                        "See yaa",
+                        "See yaaaa",
+                        "Okay bye see yaa",
+                        "Thank you for your time",
+                        "Thanks very much bye",
+                        "Thanks bye",
+                        "Stop talking to me",
+                        "Stop doing this",
+                        "Shut up",
+                        "See you later",
+                        "Ok goodbye",
+                        "I want to quit",
+                        "It was nice chatting with you",
+                        "I am leaving now",
+                        "I am good thank you",
+                        "I am done",
+                        "I have got to go"
                     ]
                 },
                 {
                     "name": "AMAZON.NavigateHomeIntent",
                     "samples": []
-                },
-                {
-                    "name": "HelloIntent",
-                    "slots": [],
-                    "samples": [
-                        "tell home automation to say hello",
-                        "tell home automation hello",
-                        "howdy",
-                        "how are you",
-                        "hello"
-                    ]
                 },
                 {
                     "name": "TurnOnIntent",
@@ -93,6 +121,120 @@
                 {
                     "name": "AMAZON.StartOverIntent",
                     "samples": []
+                },
+                {
+                    "name": "GreetingIntent",
+                    "slots": [],
+                    "samples": [
+                        "hi",
+                        "hi how is it going",
+                        "hi whats up",
+                        "hey",
+                        "hey whats up",
+                        "hey how is it going",
+                        "hello"
+                    ]
+                },
+                {
+                    "name": "PositiveFeedbackIntent",
+                    "slots": [],
+                    "samples": [
+                        "I am looking forward to working with you again",
+                        "Brilliant",
+                        "Cant believe you are that good",
+                        "How cool is this",
+                        "I like what you did there",
+                        "Love your work",
+                        "Ok thank you",
+                        "Okay",
+                        "ok",
+                        "Thank you",
+                        "Thanks",
+                        "This is good",
+                        "This is great",
+                        "This is so cool",
+                        "You are awesome",
+                        "You are great",
+                        "You are good man",
+                        "You are great man",
+                        "You are the best",
+                        "You are wonderful",
+                        "You gave me exactly what I need",
+                        "You are a genius",
+                        "You the man",
+                        "You have been so helpful"
+                    ]
+                },
+                {
+                    "name": "NegativeFeedbackIntent",
+                    "slots": [],
+                    "samples": [
+                        "You are really irritating",
+                        "You are too stupid",
+                        "You do not seem smart",
+                        "You are very frustrating",
+                        "It is annoying",
+                        "Quit annoying me",
+                        "Robots are boring",
+                        "Robots are stupid",
+                        "Stupid",
+                        "Why are you so annoying",
+                        "Why are you stupid",
+                        "You are having delusions",
+                        "You are on my nerves",
+                        "I hate you",
+                        "I hate this",
+                        "I do not like you",
+                        "Hate you",
+                        "Everyone hates you",
+                        "Do not like you",
+                        "You are really frustrating"
+                    ]
+                },
+                {
+                    "name": "SecurityQueIntent",
+                    "slots": [],
+                    "samples": [
+                        "Do you have protection against hacks",
+                        "How do I know if my card info is kept safe",
+                        "How is my credit card info secured",
+                        "In what way can I tell if my plastic is safe",
+                        "Is my card info secure",
+                        "Is my payment information secure",
+                        "Is this conversation secure",
+                        "Precautions hackers",
+                        "Protection hacks",
+                        "Secure conversation",
+                        "Why would I trust this conversation",
+                        "Will my conversation remain secured",
+                        "Are you safe on hackers",
+                        "Can I be sure that my stored card details are held securely",
+                        "Conversation secure",
+                        "Customer info secured",
+                        "Are you safe",
+                        "is this conversation is secured",
+                        "are you secure",
+                        "is this talk is secured"
+                    ]
+                },
+                {
+                    "name": "HumanOrBotIntent",
+                    "slots": [],
+                    "samples": [
+                        "Am I talking to a Bot",
+                        "Are you a bot",
+                        "Am I talking to a person or am I talking to an AI",
+                        "Am I talking to Watson",
+                        "Are you a human or a bot",
+                        "Are you a robot",
+                        "Am I chatting with a human",
+                        "Are you even real",
+                        "Are you human",
+                        "Are you real",
+                        "How can you prove you are a human",
+                        "Is this a computer",
+                        "Tell me are you a human or no"
+                    ]
                 }
             ],
             "types": [

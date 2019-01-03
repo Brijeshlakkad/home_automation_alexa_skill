@@ -3,8 +3,8 @@ var https = require('https');
 const skillName="Home Automation";
 function changeStatus(query) {
   return new Promise(((resolve, reject) => {
-    https.get('https://35b3b149.ngrok.io?'+query, (response) => {
-      response.setEncoding('utf8');
+    https.get('https://4631e568.ngrok.io?'+query, (response) => {
+    response.setEncoding('utf8');
       let returnData = '';
 
       response.on('data', (chunk) => {
@@ -118,15 +118,73 @@ const SessionEndedRequestHandler = {
     return handlerInput.responseBuilder.getResponse();
   },
 };
-const HelloHandler = {
+const GreetingHandler = {
   canHandle(handlerInput) {
     return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-      && handlerInput.requestEnvelope.request.intent.name === 'HelloIntent';
+      && handlerInput.requestEnvelope.request.intent.name === 'GreetingIntent';
   },
   async handle(handlerInput) {
     var name = await getCustomerDetails(handlerInput,'name');
     name=name.replace(/["]/gi,"");
-    const speakOutput = 'Hello,'+name+' Codecademy';
+    const speakOutput = 'Hello,'+name;
+    return handlerInput.responseBuilder
+      .speak(speakOutput)
+      .getResponse();
+  },
+};
+
+const HumanOrBotHandler = {
+  canHandle(handlerInput) {
+    return handlerInput.requestEnvelope.request.type === 'IntentRequest'
+      && handlerInput.requestEnvelope.request.intent.name === 'HumanOrBotIntent';
+  },
+  async handle(handlerInput) {
+    var name = await getCustomerDetails(handlerInput,'name');
+    name=name.replace(/["]/gi,"");
+    const speakOutput = name+'I am Alexa and am programmed to follow your orders.';
+    return handlerInput.responseBuilder
+      .speak(speakOutput)
+      .getResponse();
+  },
+};
+
+const SecurityQueHandler = {
+  canHandle(handlerInput) {
+    return handlerInput.requestEnvelope.request.type === 'IntentRequest'
+      && handlerInput.requestEnvelope.request.intent.name === 'SecurityQueIntent';
+  },
+  handle(handlerInput) {
+    const speakOutput = 'I am glad you asked. I can not provide more information, but i assure you that all things are secured including this conversation.';
+    return handlerInput.responseBuilder
+      .speak(speakOutput)
+      .getResponse();
+  },
+};
+
+const NegativeFeedbackHandler = {
+  canHandle(handlerInput) {
+    return handlerInput.requestEnvelope.request.type === 'IntentRequest'
+      && handlerInput.requestEnvelope.request.intent.name === 'NegativeFeedbackIntent';
+  },
+  async handle(handlerInput) {
+    var name = await getCustomerDetails(handlerInput,'name');
+    name=name.replace(/["]/gi,"");
+    const speakOutput = 'What did i do '+name+' ?';
+    return handlerInput.responseBuilder
+      .speak(speakOutput)
+      .getResponse();
+  },
+};
+
+const PositiveFeedbackHandler = {
+  canHandle(handlerInput) {
+    return handlerInput.requestEnvelope.request.type === 'IntentRequest'
+      && handlerInput.requestEnvelope.request.intent.name === 'PositiveFeedbackIntent';
+  },
+  async handle(handlerInput) {
+    var name = await getCustomerDetails(handlerInput,'name');
+    name=name.replace(/["]/gi,"");
+    const speakOutput = 'Thank you '+name;
     return handlerInput.responseBuilder
       .speak(speakOutput)
       .getResponse();
@@ -239,8 +297,8 @@ const ErrorHandler = {
   handle(handlerInput, error) {
     console.log(`Error handled: ${error.message}`);
     return handlerInput.responseBuilder
-      .speak("I don't know what you are saying. Can you please elaborate more?")
-      .reprompt("I don't get that. Can you please elaborate that?")
+      .speak("An error occured")
+      .reprompt("An error occured")
       .getResponse();
   },
 };
@@ -276,10 +334,14 @@ const skillBuilder = Alexa.SkillBuilders.standard();
 exports.handler = skillBuilder
   .addRequestHandlers(
     LaunchRequestHandler,
-    HelloHandler,
+    GreetingHandler,
     TurnOnDeviceHandler,
     TurnOffDeviceHandler,
     HelpHandler,
+    PositiveFeedbackHandler,
+    NegativeFeedbackHandler,
+    SecurityQueHandler,
+    HumanOrBotHandler,
     ExitHandler,
     SessionEndedRequestHandler,
     allIntentHandler

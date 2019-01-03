@@ -101,10 +101,10 @@ function verifyData(email,deviceName,roomName,status,callback){
     gotResult={'error':1,'errorMessage':'email address is not verified with our application.'};
     callback(gotResult);
   }else if(deviceName=="null"){
-    gotResult={'error':1,'errorMessage':'device name is not specified'};
+    gotResult={'error':1,'errorMessage':'Device name is not specified'};
     callback(gotResult);
   }else if(roomName=='null'){
-    gotResult={'error':1,'errorMessage':'device name is not specified'};
+    gotResult={'error':1,'errorMessage':'Room name is not specified'};
     callback(gotResult);
   }else if(status!=1 && status!=0){
     gotResult={'error':1,'errorMessage':'status is not correct'};
