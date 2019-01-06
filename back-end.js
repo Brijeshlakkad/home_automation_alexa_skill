@@ -227,7 +227,7 @@ const TurnOnDeviceHandler = {
       var res = await changeStatus(query);
       var message=res.errorMessage;
       if(res.error==0){
-        message="It's done. Your light is turned on.";
+        message="It's done. Your "+deviceName+" is turned on.";
       }
       return handlerInput.responseBuilder
       .speak(''+message)
@@ -258,7 +258,7 @@ const TurnOffDeviceHandler = {
       var res = await changeStatus(query);
       var message=res.errorMessage;
       if(res.error==0){
-        message="It's done. Your light is turned off.";
+        message="It's done. Your "+deviceName+" is turned off.";
       }
       return handlerInput.responseBuilder
       .speak(''+message)

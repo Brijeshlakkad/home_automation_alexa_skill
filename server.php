@@ -22,7 +22,7 @@ function verifyData($gotResult){
   }else{
     $gotResult->roomName=str_replace(" ","",$gotResult->roomName);
   }
-  if($gotResult->status!=1 && $gotResult->status!=0)
+  if($gotResult->status!=1 && $gotResult->status!=0 && $gotResult->status!=2)
   {
     $gotResult->error=1;
     $gotResult->errorMessage="Specification is not correct";
@@ -85,6 +85,39 @@ function performAction($gotResult){
   $gotResult->errorMessage="You do not have device named ".$gotResult->deviceName;
   return $gotResult;
 }
+function getDataAction($gotResult){
+  $sql="SELECT id from room_device where uid='$gotResult->userID' and room_id='$gotResult->roomID' and device_name='$gotResult->deviceName'";
+  $check=mysqli_query($gotResult->con,$sql);
+  if($check && mysqli_num_rows($check)>0)
+  {
+      $sql="SELECT * from room_device WHERE uid='$gotResult->userID' and room_id='$gotResult->roomID' and device_name='$gotResult->deviceName'";
+      $check=mysqli_query($gotResult->con,$sql);
+      if($check)
+      {
+        $gotResult->error=0;
+        $gotResult->errorMessage="null";
+        $row=mysqli_fetch_array($check);
+        if($row['status']==0)
+        {
+          $gotResult->data="Your ".$gotResult->deviceName.' is off';
+        }else if($row['status']==1)
+        {
+          $gotResult->data="Your ".$gotResult->deviceName.' is on';
+        }
+        else{
+          $gotResult->data="Can not reach to your ".$gotResult->deviceName." device";
+        }
+        return $gotResult;
+      }else{
+        $gotResult->error=1;
+        $gotResult->errorMessage="You do not have device named ".$gotResult->deviceName;
+        return $gotResult;
+      }
+  }
+  $gotResult->error=1;
+  $gotResult->errorMessage="You do not have device named ".$gotResult->deviceName;
+  return $gotResult;
+}
 
 function changeStatus($gotResult)
 {
@@ -102,25 +135,54 @@ function changeStatus($gotResult)
     return $gotResult;
   }
 }
+function getStatus($gotResult)
+{
+  try{
+    $gotResult=verifyData($gotResult);
+    if($gotResult->error==1) return $gotResult;
+    $gotResult=getUserID($gotResult);
+    if($gotResult->error==1) return $gotResult;
+    $gotResult=getRoomID($gotResult);
+    if($gotResult->error==1) return $gotResult;
+    $gotResult=getDataAction($gotResult);
+    return $gotResult;
+  }catch(Exception $e)
+  {
+    return $gotResult;
+  }
+}
+define('DB_HOST','localhost');
+define('DB_NAME','homeauto_automation');
+define('DB_USER','homeauto_iotproj');
+define('DB_PASSWORD','iotProject$$##');
+
+
 if(isset($_REQUEST['email']) && isset($_REQUEST['deviceName']) && isset($_REQUEST['roomName']) && isset($_REQUEST['status']))
 {
-  $con = mysqli_connect("localhost","root","root","homeauto_automation",8889);
-  if(!$con)
+  $con=new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_NAME);
+  if(mysqli_connect_error())
   {
-  	die("Can not connect to the database");
+    printf("Connection failed: %s\n",mysqli_connect_error());
+    exit();
   }
   $email=$_GET['email'];
   $deviceName=$_GET['deviceName'];
   $roomName=$_GET['roomName'];
   $status=$_GET['status'];
   $gotResult->error=0;
+  $gotResult->data="null";
   $gotResult->errorMessage="null";
   $gotResult->con=$con;
   $gotResult->email=$email;
   $gotResult->deviceName=$deviceName;
   $gotResult->roomName=$roomName;
   $gotResult->status=$status;
-  $gotResult=changeStatus($gotResult);
+  if($status==2)
+  {
+    $gotResult=getStatus($gotResult);
+  }else{
+    $gotResult=changeStatus($gotResult);
+  }
   $sendData = json_encode($gotResult);
   echo $sendData;
 }
