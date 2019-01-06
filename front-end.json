@@ -235,6 +235,66 @@
                         "Is this a computer",
                         "Tell me are you a human or no"
                     ]
+                },
+                {
+                    "name": "ReadStatusIntent",
+                    "slots": [
+                        {
+                            "name": "deviceName",
+                            "type": "deviceType"
+                        },
+                        {
+                            "name": "roomName",
+                            "type": "roomType"
+                        }
+                    ],
+                    "samples": [
+                        "assist me to get {deviceName} in {roomName} status",
+                        "help me to get my {deviceName} in {roomName}  status",
+                        "get {deviceName} in {roomName} status",
+                        "assist me to get status of my {deviceName} in {roomName}",
+                        "help me to get status of my {deviceName} in {roomName} ",
+                        "provide me status of my {deviceName} in {roomName}",
+                        "provide me status of {deviceName} in {roomName}",
+                        "get me status of my {deviceName} in {roomName}",
+                        "get me status of {deviceName} in {roomName}",
+                        "is my {deviceName} in {roomName} turned on or off",
+                        "What is status of my {deviceName} in {roomName}"
+                    ]
+                },
+                {
+                    "name": "TurnOnAllIntent",
+                    "slots": [
+                        {
+                            "name": "roomName",
+                            "type": "roomType"
+                        }
+                    ],
+                    "samples": [
+                        "assist me to turn on all devices in {roomName}",
+                        "help me to turn on all devices in {roomName}",
+                        "can you please turn on all devices in {roomName}",
+                        "can you please turn on all the device in {roomName}",
+                        "turn on all the device in {roomName}",
+                        "turn on all devices in {roomName}"
+                    ]
+                },
+                {
+                    "name": "TurnOffAllIntent",
+                    "slots": [
+                        {
+                            "name": "roomName",
+                            "type": "roomType"
+                        }
+                    ],
+                    "samples": [
+                        "assist me to turn off all devices in {roomName}",
+                        "help me to turn off all devices in {roomName}",
+                        "can you please turn off all devices in {roomName}",
+                        "can you please turn off all the device in {roomName}",
+                        "turn off all the device in {roomName}",
+                        "turn off all devices in {roomName}"
+                    ]
                 }
             ],
             "types": [

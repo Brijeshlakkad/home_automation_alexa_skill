@@ -231,7 +231,7 @@ const TurnOnDeviceHandler = {
       }
       return handlerInput.responseBuilder
       .speak(''+message)
-      .reprompt('Tell me which devices you want to turn on or off')
+      .reprompt('Tell me which devices you want to turn on')
       .getResponse();
 
   },
@@ -262,11 +262,101 @@ const TurnOffDeviceHandler = {
       }
       return handlerInput.responseBuilder
       .speak(''+message)
+      .reprompt('Tell me which devices you want to turn off')
+      .getResponse();
+
+  },
+};
+
+const TurnOnAllDeviceHandler = {
+  canHandle(handlerInput) {
+    return handlerInput.requestEnvelope.request.type === 'IntentRequest'
+      && handlerInput.requestEnvelope.request.intent.name === 'TurnOnAllIntent';
+  },
+  async handle(handlerInput) {
+      var email = await getCustomerDetails(handlerInput,'email');
+      email=email.replace(/["]/gi,"");
+      var roomName=handlerInput.requestEnvelope.request.intent.slots.roomName.value;
+      if(roomName==undefined)
+      {
+        roomName="null";
+      }
+      var deviceName="all";
+      var status=4;
+      var query="email="+email+"&deviceName="+deviceName+"&roomName="+roomName+"&status="+status;
+      var res = await changeStatus(query);
+      var message=res.errorMessage;
+      if(res.error==0){
+        message=res.data;
+      }
+      return handlerInput.responseBuilder
+      .speak(''+message)
+      .reprompt('Tell me which devices you want to turn on')
+      .getResponse();
+
+  },
+};
+const TurnOffAllDeviceHandler = {
+  canHandle(handlerInput) {
+    return handlerInput.requestEnvelope.request.type === 'IntentRequest'
+      && handlerInput.requestEnvelope.request.intent.name === 'TurnOffAllIntent';
+  },
+  async handle(handlerInput) {
+      var email = await getCustomerDetails(handlerInput,'email');
+      email=email.replace(/["]/gi,"");
+      var roomName=handlerInput.requestEnvelope.request.intent.slots.roomName.value;
+      if(roomName==undefined)
+      {
+        roomName="null";
+      }
+      var deviceName="all";
+      var status=3;
+      var query="email="+email+"&deviceName="+deviceName+"&roomName="+roomName+"&status="+status;
+      var res = await changeStatus(query);
+      var message=res.errorMessage;
+      if(res.error==0){
+        message=res.data;
+      }
+      return handlerInput.responseBuilder
+      .speak(''+message)
+      .reprompt('Tell me which devices you want to turn off')
+      .getResponse();
+
+  },
+};
+
+const ReadStatusHandler = {
+  canHandle(handlerInput) {
+    return handlerInput.requestEnvelope.request.type === 'IntentRequest'
+      && handlerInput.requestEnvelope.request.intent.name === 'ReadStatusIntent';
+  },
+  async handle(handlerInput) {
+      var email = await getCustomerDetails(handlerInput,'email');
+      email=email.replace(/["]/gi,"");
+      var roomName=handlerInput.requestEnvelope.request.intent.slots.roomName.value;
+      var deviceName=handlerInput.requestEnvelope.request.intent.slots.deviceName.value;
+      if(roomName==undefined)
+      {
+        roomName="null";
+      }else if(deviceName==undefined)
+      {
+        deviceName="null";
+      }
+      var status=2;
+      var query="email="+email+"&deviceName="+deviceName+"&roomName="+roomName+"&status="+status;
+      var res = await changeStatus(query);
+      var message=res.errorMessage;
+      if(res.error==0){
+        message=res.data;
+      }
+      return handlerInput.responseBuilder
+      .speak(''+message)
       .reprompt('Tell me which devices you want to turn on or off')
       .getResponse();
 
   },
 };
+
 const allIntentHandler = {
   canHandle() {
     return true;
@@ -337,6 +427,9 @@ exports.handler = skillBuilder
     GreetingHandler,
     TurnOnDeviceHandler,
     TurnOffDeviceHandler,
+    TurnOnAllDeviceHandler,
+    TurnOffAllDeviceHandler,
+    ReadStatusHandler,
     HelpHandler,
     PositiveFeedbackHandler,
     NegativeFeedbackHandler,

@@ -118,7 +118,24 @@ function getDataAction($gotResult){
   $gotResult->errorMessage="You do not have device named ".$gotResult->deviceName;
   return $gotResult;
 }
-
+function performActionAll($gotResult){
+  $sql="UPDATE room_device SET status='$gotResult->status' WHERE uid='$gotResult->userID' and room_id='$gotResult->roomID'";
+  $check=mysqli_query($gotResult->con,$sql);
+  if($check)
+  {
+    $gotResult->error=0;
+    $gotResult->errorMessage="null";
+    if($gotResult->status==1)
+      $gotResult->data="Your devices in ".$gotResult->roomName." has been turned on";
+    else
+      $gotResult->data="Your devices in ".$gotResult->roomName." has been turned off";
+    return $gotResult;
+  }else{
+    $gotResult->error=1;
+    $gotResult->errorMessage="You do not have device named ".$gotResult->deviceName;
+    return $gotResult;
+  }
+}
 function changeStatus($gotResult)
 {
   try{
@@ -151,6 +168,22 @@ function getStatus($gotResult)
     return $gotResult;
   }
 }
+function changeStatusAll($gotResult)
+{
+  try{
+    $gotResult=verifyData($gotResult);
+    if($gotResult->error==1) return $gotResult;
+    $gotResult=getUserID($gotResult);
+    if($gotResult->error==1) return $gotResult;
+    $gotResult=getRoomID($gotResult);
+    if($gotResult->error==1) return $gotResult;
+    $gotResult=performActionAll($gotResult);
+    return $gotResult;
+  }catch(Exception $e)
+  {
+    return $gotResult;
+  }
+}
 define('DB_HOST','localhost');
 define('DB_NAME','homeauto_automation');
 define('DB_USER','homeauto_iotproj');
@@ -176,12 +209,21 @@ if(isset($_REQUEST['email']) && isset($_REQUEST['deviceName']) && isset($_REQUES
   $gotResult->email=$email;
   $gotResult->deviceName=$deviceName;
   $gotResult->roomName=$roomName;
-  $gotResult->status=$status;
-  if($status==2)
+
+  if($status==0 || $status==1)
   {
-    $gotResult=getStatus($gotResult);
-  }else{
+    $gotResult->status=$status;
     $gotResult=changeStatus($gotResult);
+  }else if($status==2){
+    $gotResult->status=$status;
+    $gotResult=getStatus($gotResult);
+  }else if($status==3 || $status==4){
+    $gotResult->status=$status-3;
+    $gotResult=changeStatusAll($gotResult);
+  }else{
+    $gotResult->error=1;
+    $gotResult->data="null";
+    $gotResult->errorMessage="Details are not correct";
   }
   $sendData = json_encode($gotResult);
   echo $sendData;
