@@ -22,7 +22,7 @@ function verifyData($gotResult){
   }else{
     $gotResult->roomName=str_replace(" ","",$gotResult->roomName);
   }
-  if($gotResult->status!=1 && $gotResult->status!=0 && $gotResult->status!=2)
+  if($gotResult->status!=1 && $gotResult->status!=0 && $gotResult->status!=2 && $gotResult->status!=5)
   {
     $gotResult->error=1;
     $gotResult->errorMessage="Specification is not correct";
@@ -119,20 +119,56 @@ function getDataAction($gotResult){
   return $gotResult;
 }
 function performActionAll($gotResult){
-  $sql="UPDATE room_device SET status='$gotResult->status' WHERE uid='$gotResult->userID' and room_id='$gotResult->roomID'";
+  $sql="SELECT id from room_device where uid='$gotResult->userID' and room_id='$gotResult->roomID'";
   $check=mysqli_query($gotResult->con,$sql);
-  if($check)
+  if($check && mysqli_num_rows($check)>0)
+  {
+    $sql="UPDATE room_device SET status='$gotResult->status' WHERE uid='$gotResult->userID' and room_id='$gotResult->roomID'";
+    $check=mysqli_query($gotResult->con,$sql);
+    if($check)
+    {
+      $gotResult->error=0;
+      $gotResult->errorMessage="null";
+      if($gotResult->status==1)
+        $gotResult->data="Your all devices in ".$gotResult->roomName." has been turned on";
+      else
+        $gotResult->data="Your all devices in ".$gotResult->roomName." has been turned off";
+      return $gotResult;
+    }else{
+      $gotResult->error=1;
+      $gotResult->errorMessage="You do not have any device in ".$gotResult->roomName;
+      return $gotResult;
+    }
+  }else{
+    $gotResult->error=1;
+    $gotResult->errorMessage="You do not have any device in ".$gotResult->roomName;
+    return $gotResult;
+  }
+}
+function getDataActionAll($gotResult){
+  $sql="SELECT * from room_device WHERE uid='$gotResult->userID' and room_id='$gotResult->roomID'";
+  $check=mysqli_query($gotResult->con,$sql);
+  if($check && (mysqli_num_rows($check)>0))
   {
     $gotResult->error=0;
     $gotResult->errorMessage="null";
-    if($gotResult->status==1)
-      $gotResult->data="Your devices in ".$gotResult->roomName." has been turned on";
-    else
-      $gotResult->data="Your devices in ".$gotResult->roomName." has been turned off";
+    $gotResult->data="In ".$gotResult->roomName.", ";
+    while($row=mysqli_fetch_array($check)){
+      if($row['status']==0)
+      {
+        $gotResult->data.="Your ".$row['device_name'].' is off, ';
+      }else if($row['status']==1)
+      {
+        $gotResult->data.="Your ".$row['device_name'].' is on, ';
+      }
+      else{
+        $gotResult->data.="Can not reach to your ".$row['device_name']." device, ";
+      }
+    }
     return $gotResult;
   }else{
     $gotResult->error=1;
-    $gotResult->errorMessage="You do not have device named ".$gotResult->deviceName;
+    $gotResult->errorMessage="You do not have any device in ".$gotResult->roomName;
     return $gotResult;
   }
 }
@@ -184,6 +220,22 @@ function changeStatusAll($gotResult)
     return $gotResult;
   }
 }
+function getStatusAll($gotResult)
+{
+  try{
+    $gotResult=verifyData($gotResult);
+    if($gotResult->error==1) return $gotResult;
+    $gotResult=getUserID($gotResult);
+    if($gotResult->error==1) return $gotResult;
+    $gotResult=getRoomID($gotResult);
+    if($gotResult->error==1) return $gotResult;
+    $gotResult=getDataActionAll($gotResult);
+    return $gotResult;
+  }catch(Exception $e)
+  {
+    return $gotResult;
+  }
+}
 define('DB_HOST','localhost');
 define('DB_NAME','homeauto_automation');
 define('DB_USER','homeauto_iotproj');
@@ -220,7 +272,10 @@ if(isset($_REQUEST['email']) && isset($_REQUEST['deviceName']) && isset($_REQUES
   }else if($status==3 || $status==4){
     $gotResult->status=$status-3;
     $gotResult=changeStatusAll($gotResult);
-  }else{
+  }else if($status==5){
+    $gotResult=getStatusAll($gotResult);
+  }
+  else{
     $gotResult->error=1;
     $gotResult->data="null";
     $gotResult->errorMessage="Details are not correct";

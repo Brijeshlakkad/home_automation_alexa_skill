@@ -357,6 +357,35 @@ const ReadStatusHandler = {
   },
 };
 
+const ReadStatusInRoomHandler = {
+  canHandle(handlerInput) {
+    return handlerInput.requestEnvelope.request.type === 'IntentRequest'
+      && handlerInput.requestEnvelope.request.intent.name === 'ReadStatusInRoomIntent';
+  },
+  async handle(handlerInput) {
+      var email = await getCustomerDetails(handlerInput,'email');
+      email=email.replace(/["]/gi,"");
+      var roomName=handlerInput.requestEnvelope.request.intent.slots.roomName.value;
+      if(roomName==undefined)
+      {
+        roomName="null";
+      }
+      var deviceName="all";
+      var status=5;
+      var query="email="+email+"&deviceName="+deviceName+"&roomName="+roomName+"&status="+status;
+      var res = await changeStatus(query);
+      var message=res.errorMessage;
+      if(res.error==0){
+        message=res.data;
+      }
+      return handlerInput.responseBuilder
+      .speak(''+message)
+      .reprompt('Tell me which devices you want to turn on or off')
+      .getResponse();
+
+  },
+};
+
 const allIntentHandler = {
   canHandle() {
     return true;
@@ -430,6 +459,7 @@ exports.handler = skillBuilder
     TurnOnAllDeviceHandler,
     TurnOffAllDeviceHandler,
     ReadStatusHandler,
+    ReadStatusInRoomHandler,
     HelpHandler,
     PositiveFeedbackHandler,
     NegativeFeedbackHandler,

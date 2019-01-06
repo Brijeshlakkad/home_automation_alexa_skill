@@ -295,6 +295,23 @@
                         "turn off all the device in {roomName}",
                         "turn off all devices in {roomName}"
                     ]
+                },
+                {
+                    "name": "ReadStatusInRoomIntent",
+                    "slots": [
+                        {
+                            "name": "roomName",
+                            "type": "roomType"
+                        }
+                    ],
+                    "samples": [
+                        "assist me to get all devices in {roomName} status",
+                        "help me to get all devices in {roomName} status",
+                        "get all devices in {roomName} status",
+                        "assist me to get me status of all devices in {roomName}",
+                        "help me to get me status of all devices in {roomName}",
+                        "get me status of all devices in {roomName}"
+                    ]
                 }
             ],
             "types": [
